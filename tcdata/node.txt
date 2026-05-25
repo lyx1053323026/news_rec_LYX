@@ -1,0 +1,44 @@
+赛题以预测用户未来点击新闻文章为任务，数据集报名后可见并可下载，该数据来自某新闻APP平台的用户交互数据，包括30万用户，近300万次点击，共36万多篇不同的新闻文章，同时每篇新闻文章有对应的embedding向量表示。为了保证比赛的公平性，将会从中抽取20万用户的点击日志数据作为训练集，5万用户的点击日志数据作为测试集A，5万用户的点击日志数据作为测试集B。
+
+数据表
+train_click_log.csv：训练集用户点击日志
+
+testA_click_log.csv：测试集用户点击日志
+
+articles.csv：新闻文章信息数据表
+
+articles_emb.csv：新闻文章embedding向量表示
+
+sample_submit.csv：提交样例文件
+
+字段表
+Field	Description
+user_id	用户id
+click_article_id	点击文章id
+click_timestamp	点击时间戳
+click_environment	点击环境
+click_deviceGroup	点击设备组
+click_os	点击操作系统
+click_country	点击城市
+click_region	点击地区
+click_referrer_type	点击来源类型
+article_id	文章id，与click_article_id相对应
+category_id	文章类型id
+created_at_ts	文章创建时间戳
+words_count	文章字数
+emb_1,emb_2,...,emb_249	文章embedding向量表示
+结果提交
+提交前请确保预测结果的格式与sample_submit.csv中的格式一致，以及提交文件后缀名为csv。其格式如下：
+
+user_id,article_1,article_2,article_3,article_4,article_5
+其中user_id为用户id, article_1,article_2,article_3,article_4,article_5为预测用户点击新闻文章Top5的article_id依概率从高到低排序，例如：
+
+user_id,article_1,article_2,article_3,article_4  ,article_5
+
+   200000,1  ,2,3,4,5
+   
+   200001,1  ,2,3,4,5
+   
+   200002,1  ,2,3,4,5
+   
+   200003,1,2,3,4,5

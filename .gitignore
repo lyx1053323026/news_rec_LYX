@@ -1,0 +1,22 @@
+# Claude 本地设置
+.claude/
+
+# 生成的中间文件和模型
+user_data/
+*.pkl
+*.log
+
+# 超大文件（超过 GitHub 100MB 限制）
+tcdata/articles_emb.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 测试集数据（与 tcdata 重复）
+测试集数据/
+
+# IDE
+.vscode/
+.idea/
