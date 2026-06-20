@@ -129,9 +129,10 @@ LGBMClassifier(
     ├── rank_feature.py         # 排序特征工程
     ├── rank_lgb.py             # LightGBM 排序模型
     ├── test.sh                 # 一键运行脚本
-    ├── ItemCF算法技术文档.md     # 改进 ItemCF 算法详细文档
-    ├── Swing算法技术文档.md     # Swing 算法详细文档
-    └── 排序模型技术文档.md      # 排序模型详细文档
+    ├── ItemCF算法技术文档.md        # 改进 ItemCF 算法详细文档
+    ├── Swing算法技术文档.md        # Swing 算法详细文档
+    ├── Word2Vec召回算法技术文档.md   # Word2Vec 向量召回详细文档
+    └── 排序模型技术文档.md         # 排序模型详细文档
 ```
 
 ## 快速开始
@@ -190,6 +191,7 @@ python rank_lgb.py --mode valid --logfile "run.log"
 
 - [改进 ItemCF 协同过滤算法技术文档](code/ItemCF算法技术文档.md)
 - [Swing 协同过滤算法技术文档](code/Swing算法技术文档.md)
+- [Word2Vec 向量召回算法技术文档](code/Word2Vec召回算法技术文档.md)
 - [排序模型技术文档](code/排序模型技术文档.md)
 
 ## License
