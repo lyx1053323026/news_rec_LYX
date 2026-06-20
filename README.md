@@ -115,25 +115,23 @@ LGBMClassifier(
 ```
 .
 ├── README.md                      # 本文件
+├── requirements.txt               # Python 依赖
 ├── .gitignore
 ├── tcdata/
 │   └── node.txt                   # 数据集字段说明
-└── 源码/tianchi-news-recommendation-master/
-    ├── README.md
-    ├── requirements.txt            # Python 依赖
-    └── code/
-        ├── data.py                 # 数据预处理与验证集划分
-        ├── utils.py                # 工具函数（日志、评估、提交生成）
-        ├── recall_itemcf.py        # ItemCF 召回
-        ├── recall_swing.py         # Swing 召回 ⭐
-        ├── recall_w2v.py           # Word2Vec 召回
-        ├── recall.py               # 多路召回合并
-        ├── rank_feature.py         # 排序特征工程
-        ├── rank_lgb.py             # LightGBM 排序模型
-        ├── test.sh                 # 一键运行脚本
-        ├── ItemCF算法技术文档.md     # 改进 ItemCF 算法详细文档
-        ├── Swing算法技术文档.md     # Swing 算法详细文档
-        └── 排序模型技术文档.md      # 排序模型详细文档
+└── code/
+    ├── data.py                 # 数据预处理与验证集划分
+    ├── utils.py                # 工具函数（日志、评估、提交生成）
+    ├── recall_itemcf.py        # ItemCF 召回
+    ├── recall_swing.py         # Swing 召回 ⭐
+    ├── recall_w2v.py           # Word2Vec 召回
+    ├── recall.py               # 多路召回合并
+    ├── rank_feature.py         # 排序特征工程
+    ├── rank_lgb.py             # LightGBM 排序模型
+    ├── test.sh                 # 一键运行脚本
+    ├── ItemCF算法技术文档.md     # 改进 ItemCF 算法详细文档
+    ├── Swing算法技术文档.md     # Swing 算法详细文档
+    └── 排序模型技术文档.md      # 排序模型详细文档
 ```
 
 ## 快速开始
@@ -158,7 +156,6 @@ LGBMClassifier(
 ### 一键运行
 
 ```bash
-cd 源码/tianchi-news-recommendation-master
 pip install -r requirements.txt
 cd code
 bash test.sh
@@ -191,9 +188,9 @@ python rank_lgb.py --mode valid --logfile "run.log"
 
 ## 技术文档
 
-- [改进 ItemCF 协同过滤算法技术文档](源码/tianchi-news-recommendation-master/code/ItemCF算法技术文档.md)
-- [Swing 协同过滤算法技术文档](源码/tianchi-news-recommendation-master/code/Swing算法技术文档.md)
-- [排序模型技术文档](源码/tianchi-news-recommendation-master/code/排序模型技术文档.md)
+- [改进 ItemCF 协同过滤算法技术文档](code/ItemCF算法技术文档.md)
+- [Swing 协同过滤算法技术文档](code/Swing算法技术文档.md)
+- [排序模型技术文档](code/排序模型技术文档.md)
 
 ## License
 
