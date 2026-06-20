@@ -2,7 +2,7 @@
 
 ## 一、算法概述
 
-Swing 是一种基于用户-物品二部图的协同过滤算法，用于计算物品间的相似度。与传统的 ItemCF 不同，Swing 通过引入"用户对共现惩罚"机制，抑制高重叠度用户对带来的噪声信号，从而更准确地捕捉物品间的独立共现关系。
+Swing 是一种基于用户-物品交互图的协同过滤算法，用于计算物品间的相似度。与传统的 ItemCF 不同，Swing 通过引入"用户对共现惩罚"机制，抑制高重叠度用户对带来的噪声信号，从而更准确地捕捉物品间的独立共现关系。
 
 **核心思想：** 如果两个用户共同点击过大量相同的物品（高重叠度），则它们在一对新物品上的共现提供的"独立证据"较弱——这可能源于用户本身兴趣高度一致或异常行为，而非物品间的真实关联。
 
@@ -26,9 +26,9 @@ $$\text{sim}(i, j) = \sum_{u \in U_i \cap U_j} \sum_{\substack{v \in U_i \cap U_
 
 | 算法 | 相似度计算方式 | 特点 |
 |------|---------------|------|
-| **ItemCF** | 基于共现次数 + 位置权重 + 时间衰减 | 简单高效，未区分用户质量 |
-| **Bipartite Network** | `1 / (log(N_u) × log(N_i))` 归一化 | 抑制热门物品和活跃用户 |
+| **ItemCF** | 基于共现次数 + 位置权重 + 时间衰减 | 时序建模能力强，信号丰富 |
 | **Swing** | 用户对重叠度惩罚 | 抑制同质化用户对，信号更独立 |
+| **Word2Vec** | 向量余弦相似度 | 语义关联，冷启动友好 |
 
 ## 三、工程实现
 
@@ -103,7 +103,7 @@ recall_swing.py
 **依赖关系：**
 - 输入：`click.pkl`（用户历史点击）、`query.pkl`（验证/测试用户）
 - 输出：`swing_sim.pkl`（相似矩阵）、`recall_swing.pkl`（召回结果）
-- 融合权重：1.0（与 ItemCF、Bipartite Network 同级）
+- 融合权重：1.0（与 ItemCF、Word2Vec 同级）
 
 ## 五、召回效果
 
@@ -120,7 +120,7 @@ recall_swing.py
 | **HitRate@50** | 55.25% |
 | MRR@50 | 19.36% |
 
-作为融合中的第 4 路召回通道（与 ItemCF、Bipartite Network、Word2Vec 联合），权重为 1.0。
+作为融合中的第 2 路召回通道（与 ItemCF、Word2Vec 联合），权重为 1.0。
 
 ## 六、使用方式
 
@@ -135,5 +135,5 @@ python recall_swing.py --mode online --logfile "swing_online.log"
 在完整流水线中的位置（`test.sh`）：
 
 ```
-data.py → recall_itemcf.py → recall_binetwork.py → recall_swing.py → recall_w2v.py → recall.py → rank_feature.py → rank_lgb.py
+data.py → recall_itemcf.py → recall_swing.py → recall_w2v.py → recall.py → rank_feature.py → rank_lgb.py
 ```
