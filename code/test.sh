@@ -5,9 +5,6 @@ python data.py --mode valid --logfile "${time}.log"
 # itemcf 召回
 python recall_itemcf.py --mode valid --logfile "${time}.log"
 
-# binetwork 召回
-python recall_binetwork.py --mode valid --logfile "${time}.log"
-
 # swing 召回
 python recall_swing.py --mode valid --logfile "${time}.log"
 
