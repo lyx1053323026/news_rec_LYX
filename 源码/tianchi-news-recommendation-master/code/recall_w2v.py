@@ -141,7 +141,7 @@ def recall(df_query, article_vec_map, article_index, user_item_dict,
                     rank.setdefault(relate_item, 0)
                     rank[relate_item] += wij
 
-        sim_items = sorted(rank.items(), key=lambda d: d[1], reverse=True)[:50]
+        sim_items = sorted(rank.items(), key=lambda d: d[1], reverse=True)[:100]
         item_ids = [item[0] for item in sim_items]
         item_sim_scores = [item[1] for item in sim_items]
 

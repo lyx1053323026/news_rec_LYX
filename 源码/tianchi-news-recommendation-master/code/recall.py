@@ -101,9 +101,9 @@ if __name__ == '__main__':
 
     log.debug(f'max_threads {max_threads}')
 
-    recall_methods = ['itemcf', 'w2v', 'binetwork']
+    recall_methods = ['itemcf', 'swing', 'w2v']
 
-    weights = {'itemcf': 1, 'binetwork': 1, 'w2v': 0.1}
+    weights = {'itemcf': 1, 'swing': 1, 'w2v': 1}
     recall_list = []
     recall_dict = {}
     for recall_method in recall_methods:

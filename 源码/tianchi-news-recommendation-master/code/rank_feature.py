@@ -64,6 +64,36 @@ def func_if_last(x):
     return sim
 
 
+def func_swing_sum(x):
+    user_id = x['user_id']
+    article_id = x['article_id']
+
+    interacted_items = user_item_dict[user_id]
+    interacted_items = interacted_items[::-1]
+
+    sim_sum = 0
+    for loc, i in enumerate(interacted_items):
+        try:
+            sim_sum += swing_sim[i][article_id] * (0.7**loc)
+        except Exception as e:
+            pass
+    return sim_sum
+
+
+def func_swing_last(x):
+    user_id = x['user_id']
+    article_id = x['article_id']
+
+    last_item = user_item_dict[user_id][-1]
+
+    sim = 0
+    try:
+        sim = swing_sim[last_item][article_id]
+    except Exception as e:
+        pass
+    return sim
+
+
 def func_binetwork_sim_last(x):
     user_id = x['user_id']
     article_id = x['article_id']
@@ -288,6 +318,26 @@ if __name__ == '__main__':
     df_feature['user_last_click_article_binetwork_sim'] = df_feature[[
         'user_id', 'article_id'
     ]].apply(func_binetwork_sim_last, axis=1)
+
+    log.debug(f'df_feature.shape: {df_feature.shape}')
+    log.debug(f'df_feature.columns: {df_feature.columns.tolist()}')
+
+    ## swing 相关
+    if mode == 'valid':
+        f = open('../user_data/sim/offline/swing_sim.pkl', 'rb')
+        swing_sim = pickle.load(f)
+        f.close()
+    else:
+        f = open('../user_data/sim/online/swing_sim.pkl', 'rb')
+        swing_sim = pickle.load(f)
+        f.close()
+
+    df_feature['user_clicked_article_swing_sim_sum'] = df_feature[[
+        'user_id', 'article_id'
+    ]].apply(func_swing_sum, axis=1)
+    df_feature['user_last_click_article_swing_sim'] = df_feature[[
+        'user_id', 'article_id'
+    ]].apply(func_swing_last, axis=1)
 
     log.debug(f'df_feature.shape: {df_feature.shape}')
     log.debug(f'df_feature.columns: {df_feature.columns.tolist()}')
