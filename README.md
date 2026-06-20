@@ -1,6 +1,6 @@
-# 天池新闻推荐竞赛 Top 2 方案
+# 天池新闻推荐竞赛方案
 
-> 🏆 零基础入门推荐系统 - 新闻推荐
+> 零基础入门推荐系统 - 新闻推荐
 >
 > 比赛地址：[天池大赛 - 新闻推荐](https://tianchi.aliyun.com/competition/entrance/531842/introduction)
 
@@ -14,7 +14,6 @@
 | 训练集 | 20 万用户点击日志 |
 | 测试集 | A/B 各 5 万用户 |
 | 评估指标 | **HitRate@5**、**MRR@5** |
-| 排名 | **Top 2** |
 
 ## 方案架构
 
@@ -28,7 +27,7 @@
          ┌───────────────┼───────────────┐
          │               │               │
     ┌────▼────┐   ┌──────▼──────┐   ┌────▼────┐
-    │ ItemCF  │   │Bipartite Net│   │ Swing   │  ...
+    │ ItemCF  │   │   Swing     │   │ Word2Vec│
     └────┬────┘   └──────┬──────┘   └────┬────┘
          │               │               │
          └───────────────┼───────────────┘
@@ -53,17 +52,13 @@
 
 ## 召回策略
 
-采用 **4 路多路召回**，通过不同策略的差异性提高整体召回覆盖率：
+采用 **3 路多路召回**，通过不同策略的差异性提高整体召回覆盖率：
 
 ### 1. ItemCF 协同过滤 (`recall_itemcf.py`)
 
 基于物品的协同过滤，使用共现次数 + 位置权重 + 时间衰减计算物品相似度。
 
-### 2. Bipartite Network (`recall_binetwork.py`)
-
-基于用户-物品二部图的协同过滤，通过 `1 / (log(N_u) × log(N_i))` 归一化抑制热门物品和活跃用户的影响。
-
-### 3. Swing 协同过滤 (`recall_swing.py`)
+### 2. Swing 协同过滤 (`recall_swing.py`)
 
 通过引入「用户对共现惩罚」机制，抑制高重叠度用户对带来的噪声信号，更准确地捕捉物品间的独立共现关系。
 
@@ -73,7 +68,7 @@ $$\text{sim}(i, j) = \sum_{u \in U_i \cap U_j} \sum_{\substack{v \in U_i \cap U_
 - 热门物品用户采样：最多 300 个用户
 - 单路验证集 HitRate@5: **28.76%**
 
-### 4. Word2Vec 向量召回 (`recall_w2v.py`)
+### 3. Word2Vec 向量召回 (`recall_w2v.py`)
 
 基于 Word2Vec 训练文章向量，通过余弦相似度计算物品间的语义关联，进行 i2i 召回。
 
@@ -94,7 +89,7 @@ $$\text{sim}(i, j) = \sum_{u \in U_i \cap U_j} \sum_{\substack{v \in U_i \cap U_
 | 文章属性 | 类目 ID、创建时间、字数 |
 | 用户历史统计 | 点击时间差、文章创建时间差、字数统计、点击时段 |
 | 计数特征 | 用户点击数、文章被点击数、用户类目点击数 |
-| 召回相似度 | 4 路召回的相似度加权得分（最强信号） |
+| 召回相似度 | 3 路召回的相似度加权得分（最强信号） |
 
 ### LightGBM 排序 (`rank_lgb.py`)
 
@@ -130,7 +125,6 @@ LGBMClassifier(
         ├── data.py                 # 数据预处理与验证集划分
         ├── utils.py                # 工具函数（日志、评估、提交生成）
         ├── recall_itemcf.py        # ItemCF 召回
-        ├── recall_binetwork.py     # Bipartite Network 召回
         ├── recall_swing.py         # Swing 召回 ⭐
         ├── recall_w2v.py           # Word2Vec 召回
         ├── recall.py               # 多路召回合并
@@ -179,7 +173,6 @@ python data.py --mode valid --logfile "run.log"
 
 # 2. 多路召回
 python recall_itemcf.py --mode valid --logfile "run.log"
-python recall_binetwork.py --mode valid --logfile "run.log"
 python recall_swing.py --mode valid --logfile "run.log"
 python recall_w2v.py --mode valid --logfile "run.log"
 
